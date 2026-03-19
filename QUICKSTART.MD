@@ -8,4 +8,4 @@ pip install -r requirements.txt
 ```
 
 # Running
-Each folder has ipynb file to be run
+Each folder has ipynb file to be run indivdually
