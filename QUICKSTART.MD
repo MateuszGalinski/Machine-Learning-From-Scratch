@@ -9,3 +9,5 @@ pip install -r requirements.txt
 
 # Running
 Each folder has ipynb file to be run indivdually
+
+This project assumes the notebooks are run from within they respective folder as they use relative import for evaluation_function.py

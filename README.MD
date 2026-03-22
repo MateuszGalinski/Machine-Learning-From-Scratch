@@ -8,7 +8,13 @@ Implementation of analytical, numerical and ridge regressions
 analytical is compared against sklearn on real NASA dataset
 ridge is compared against sklearn on synthetic dataset
 
-Zad02 - In progress  
+Zad02 - Ridge regression classifier
+Implementation of a classifier based on ridge regression.
+Firstly it is compared against sklearn on 2 synthetic datasets:  
+1. generated using make_classifications
+2. generated using make_moons
+Then it is compared on uci heart disease dataset that has been reduced to binary classification problem (instead of usual [0-4])
+
 Zad03 - In progress  
 Zad04 - In progress  
 Zad05 - In progress  
