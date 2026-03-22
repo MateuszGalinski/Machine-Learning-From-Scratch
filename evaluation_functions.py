@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.axes import Axes
 from abc import ABC, abstractmethod
-from typing import Any
+from typing import Any, Optional
 
 class ClassifierAbstraction(ABC):
     @abstractmethod
@@ -19,7 +19,7 @@ class ClassifierAbstraction(ABC):
     def predict(self, X) -> np.ndarray:
         pass
 
-def measure_fit_time(classifier : ClassifierAbstraction | Any, X_train, y_train, n_runs=100):
+def measure_fit_time(classifier : ClassifierAbstraction | Any, X_train : np.ndarray, y_train : np.ndarray, n_runs=100):
     times = []
     for _ in range(n_runs):
         t0 = time.perf_counter()
@@ -27,26 +27,25 @@ def measure_fit_time(classifier : ClassifierAbstraction | Any, X_train, y_train,
         times.append(time.perf_counter() - t0)
     return np.mean(times)
 
-def print_metrics(classifier : ClassifierAbstraction | Any, X_test, y_test, name):
+def print_metrics(classifier : ClassifierAbstraction | Any, X_test : np.ndarray, y_test : np.ndarray, name):
     pred = classifier.predict(X_test)
     conf_matrix = confusion_matrix(y_test, pred)
     tn, fp, fn, tp = conf_matrix.ravel()
 
     print(f"\n── {name} ──")
     print(f"Confusion matrix:\n{conf_matrix}")
-    print(f"Accuracy:       {accuracy_score(y_test, pred):.4f}")
-    print(f"Sensitivity:    {tp / (tp + fn):.4f}")
-    print(f"Specificity:    {tn / (tn + fp):.4f}")
+    print(f"Accuracy:       {accuracy_score(y_test, pred)}")
+    print(f"Sensitivity:    {tp / (tp + fn)}")
+    print(f"Specificity:    {tn / (tn + fp)}")
 
-def plot_roc(classifier : ClassifierAbstraction | Any, name, color, X_test, y_test, ax : Axes):
+def plot_roc(classifier : ClassifierAbstraction | Any, X_test : np.ndarray, y_test : np.ndarray, ax : Axes, title : Optional[str] = "Roc fig", color : Optional[str] = "blue"):
     scores = classifier.decision_function(X_test)
     fpr, tpr, _ = roc_curve(y_test, scores)
-    ax.plot(fpr, tpr, color=color, label=f"{name}")
+    ax.plot(fpr, tpr, color=color)
     ax.plot([0, 1], [0, 1], 'k--')
     ax.set_xlabel('False Positive Rate')
     ax.set_ylabel('True Positive Rate')
-    ax.set_title('ROC Curve')
-    ax.legend()
+    ax.set_title(f'{title}')
 
 def plot_decision_boundary(classifier : ClassifierAbstraction | Any, X_test : np.ndarray, y_test, ax : Axes, title):
     x_min, x_max = X_test[:, 0].min() - 0.5, X_test[:, 0].max() + 0.5
