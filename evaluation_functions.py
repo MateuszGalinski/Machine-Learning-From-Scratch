@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 from matplotlib.axes import Axes
 from abc import ABC, abstractmethod
 from typing import Any, Optional
+import seaborn as sns
 
 class ClassifierAbstraction(ABC):
     @abstractmethod
@@ -38,7 +39,20 @@ def print_metrics(classifier : ClassifierAbstraction | Any, X_test : np.ndarray,
     print(f"Sensitivity:    {tp / (tp + fn)}")
     print(f"Specificity:    {tn / (tn + fp)}")
 
-def plot_roc(classifier : ClassifierAbstraction | Any, X_test : np.ndarray, y_test : np.ndarray, ax : Axes, title : Optional[str] = "Roc fig", color : Optional[str] = "blue"):
+def plot_confusion_matrix(classifier: ClassifierAbstraction | Any, X_test: np.ndarray, y_test: np.ndarray, ax: Axes, labels: Optional[list[str]] = None, title: str = "Confusion Matrix", fmt = 'd'):
+    pred = classifier.predict(X_test)
+    conf_matrix = confusion_matrix(y_test, pred)
+
+    tick_labels = labels if labels is not None else sorted(np.unique(y_test))
+    
+    sns.heatmap(conf_matrix, annot=True, fmt=fmt, cmap='viridis', ax=ax,
+                xticklabels=tick_labels,
+                yticklabels=tick_labels)
+    ax.set_xlabel('Predicted')
+    ax.set_ylabel('Actual')
+    ax.set_title(title)
+
+def plot_roc(classifier : ClassifierAbstraction | Any, X_test : np.ndarray, y_test : np.ndarray, ax : Axes, title : str = "Roc fig", color : str = "blue"):
     scores = classifier.decision_function(X_test)
     fpr, tpr, _ = roc_curve(y_test, scores)
     ax.plot(fpr, tpr, color=color)
