@@ -36,7 +36,7 @@ def print_metrics(classifier : ClassifierAbstraction | Any, X_test : np.ndarray,
     print(f"\n── {name} ──")
     print(f"Confusion matrix:\n{conf_matrix}")
     print(f"Accuracy:       {accuracy_score(y_test, pred)}")
-    print(f"Recall:    {tp / (tp + fn)}")
+    print(f"Recall:         {tp / (tp + fn)}")
     print(f"Specificity:    {tn / (tn + fp)}")
 
 def plot_confusion_matrix(classifier: ClassifierAbstraction | Any, X_test: np.ndarray, y_test: np.ndarray, ax: Axes, labels: Optional[list[str]] = None, title: str = "Confusion Matrix", fmt = 'd'):
