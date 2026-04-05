@@ -15,9 +15,13 @@ Firstly it is compared against sklearn on 2 synthetic datasets:
 2. generated using make_moons
 Then it is compared on uci heart disease dataset that has been reduced to binary classification problem (instead of usual [0-4])
 
-Zad03 - In progress  
-Zad04 - In progress  
-Zad05 - In progress  
-Zad06 - In progress  
+Zad03 - LogisticRegression
+
+Zad04 - SVM
+
+Zad05 - Descision Tree
+
+Zad06 - Random Forest
+  
 Zad07 - In progress  
 Zad08 - In progress  
